@@ -24,6 +24,8 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "bin/git-up",
+     "git-up.gemspec",
      "lib/git-up.rb",
      "test/helper.rb",
      "test/test_git-up.rb"

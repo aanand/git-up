@@ -33,12 +33,12 @@ class GitUp
             next
           end
 
-          if merge_base != branch.commit.sha
-            puts "not fast-forward".red
-            next
+          if merge_base == branch.commit.sha
+            puts "fast-forwarding...".yellow
+          else
+            puts "rebasing...".yellow
           end
 
-          puts "fast-forwarding".yellow
           @repo.git.checkout({}, branch.name)
           @repo.git.rebase({}, remote.name)
         end
