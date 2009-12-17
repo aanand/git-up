@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'git-up'
+
+GitUp.new(ARGV).run
+
