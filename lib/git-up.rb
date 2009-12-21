@@ -13,11 +13,7 @@ class GitUp
     with_stash do
       returning_to_current_branch do
         @repo.branches.each do |branch|
-          remote_name = @repo.config["branch.#{branch.name}.remote"]
-          next unless remote_name
-
-          remote = @repo.remotes.find { |r| r.name == "#{remote_name}/#{branch.name}" }
-          next unless remote
+          next unless remote = remote_for_branch(branch)
 
           print branch.name.ljust(20)
 
@@ -43,6 +39,14 @@ class GitUp
           @repo.git.rebase({}, remote.name)
         end
       end
+    end
+  end
+
+  def remote_for_branch(branch)
+    if remote_name = @repo.config["branch.#{branch.name}.remote"]
+      @repo.remotes.find { |r| r.name == "#{remote_name}/#{branch.name}" }
+    else
+      nil
     end
   end
 
