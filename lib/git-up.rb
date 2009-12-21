@@ -73,12 +73,17 @@ class GitUp
   end
 
   def returning_to_current_branch
+    unless @repo.head.respond_to?(:name)
+      puts "You're not currently on a branch. I'm exiting in case you're in the middle of something.".red
+      return
+    end
+
     branch_name = @repo.head.name
 
     begin
       yield
     ensure
-      if @repo.head.name != branch_name
+      unless @repo.head.respond_to?(:name) and @repo.head.name == branch_name
         puts "returning to #{branch_name}".magenta
         @repo.git.checkout({}, branch_name)
       end
