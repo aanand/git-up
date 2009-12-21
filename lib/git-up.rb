@@ -22,24 +22,28 @@ class GitUp
             next
           end
 
-          merge_base = @repo.git.send("merge-base", {}, branch.name, remote.name).strip
+          base = merge_base(branch.name, remote.name)
 
-          if merge_base == remote.commit.sha
+          if base == remote.commit.sha
             puts "ahead of upstream".green
             next
           end
 
-          if merge_base == branch.commit.sha
+          if base == branch.commit.sha
             puts "fast-forwarding...".yellow
           else
             puts "rebasing...".yellow
           end
 
-          @repo.git.checkout({}, branch.name)
-          @repo.git.rebase({}, remote.name)
+          checkout(branch.name)
+          rebase(remote)
         end
       end
     end
+  rescue GitError => e
+    puts e.message.red
+    puts "Here's what Git said:".red
+    puts e.output
   end
 
   def remote_for_branch(branch)
@@ -62,13 +66,11 @@ class GitUp
       stashed = true
     end
 
-    begin
-      yield
-    ensure
-      if stashed
-        puts "unstashing".magenta
-        @repo.git.stash({}, "apply")
-      end
+    yield
+
+    if stashed
+      puts "unstashing".magenta
+      @repo.git.stash({}, "apply")
     end
   end
 
@@ -80,13 +82,50 @@ class GitUp
 
     branch_name = @repo.head.name
 
-    begin
-      yield
-    ensure
-      unless @repo.head.respond_to?(:name) and @repo.head.name == branch_name
-        puts "returning to #{branch_name}".magenta
-        @repo.git.checkout({}, branch_name)
-      end
+    yield
+
+    unless on_branch?(branch_name)
+      puts "returning to #{branch_name}".magenta
+      checkout(branch_name)
+    end
+  end
+
+  def checkout(branch_name)
+    output = @repo.git.checkout({}, branch_name)
+
+    unless on_branch?(branch_name)
+      raise GitError.new("Failed to checkout #{branch_name}", output)
+    end
+  end
+
+  def rebase(target_branch)
+    current_branch = @repo.head
+
+    output, err = @repo.git.sh("#{Grit::Git.git_binary} rebase #{target_branch.name}")
+
+    unless on_branch?(current_branch.name) and is_fast_forward?(current_branch, target_branch)
+      raise GitError.new("Failed to rebase #{current_branch.name} onto #{target_branch.name}", output+err)
+    end
+  end
+
+  def is_fast_forward?(a, b)
+    merge_base(a.name, b.name) == b.commit.sha
+  end
+
+  def merge_base(a, b)
+    @repo.git.send("merge-base", {}, a, b).strip
+  end
+
+  def on_branch?(branch_name=nil)
+    @repo.head.respond_to?(:name) and @repo.head.name == branch_name
+  end
+
+  class GitError < StandardError
+    attr_reader :output
+
+    def initialize(message, output)
+      super(message)
+      @output = output
     end
   end
 end
