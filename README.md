@@ -7,3 +7,8 @@ Solve it once and for all:
 
 ![gem install git-up](http://dl.dropbox.com/u/166030/nonsense/git-up.png)
 
+although
+--------
+
+`git-up` might mess up your branches, or set your chest hair on fire, or be racist to your cat, I don't know. It works for me.
+
