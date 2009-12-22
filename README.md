@@ -1,20 +1,9 @@
 git-up
 ======
 
-![git-up](http://dl.dropbox.com/u/166030/nonsense/git-up.png)
+So `git pull` merges by default, when it [should really rebase](http://www.gitready.com/advanced/2009/02/11/pull-with-rebase.html). You can [ask it to rebase instead](http://d.strelau.net/post/47338904/git-pull-rebase-by-default), but it still won't touch anything other than the currently checked-out branch. If you're tracking a bunch of remote branches, you'll get non-fast-forward complaints next time you push.
 
-Note on Patches/Pull Requests
------------------------------
- 
-* Fork the project.
-* Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a
-  future version unintentionally.
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+Solve it once and for all:
 
-Copyright
----------
+![gem install git-up](http://dl.dropbox.com/u/166030/nonsense/git-up.png)
 
-Copyright (c) 2009 Aanand Prasad. See LICENSE for details.
