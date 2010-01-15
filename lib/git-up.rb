@@ -8,7 +8,7 @@ class GitUp
   end
 
   def run
-    @repo.git.fetch
+    system "git fetch"
 
     with_stash do
       returning_to_current_branch do
