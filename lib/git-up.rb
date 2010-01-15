@@ -3,7 +3,7 @@ require 'grit'
 
 class GitUp
   def initialize(args)
-    @repo   = Grit::Repo.new(args.first || File.expand_path("."))
+    @repo   = Grit::Repo.new(File.expand_path("."))
     @head   = @repo.head
   end
 
