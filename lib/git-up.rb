@@ -12,10 +12,12 @@ class GitUp
 
     with_stash do
       returning_to_current_branch do
+        col_width = @repo.branches.map { |b| b.name.length }.max + 1
+
         @repo.branches.each do |branch|
           next unless remote = remote_for_branch(branch)
 
-          print branch.name.ljust(20)
+          print branch.name.ljust(col_width)
 
           if remote.commit.sha == branch.commit.sha
             puts "up to date".green
