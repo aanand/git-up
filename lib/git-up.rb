@@ -47,11 +47,8 @@ class GitUp
   end
 
   def remote_for_branch(branch)
-    if remote_name = @repo.config["branch.#{branch.name}.remote"]
-      @repo.remotes.find { |r| r.name == "#{remote_name}/#{branch.name}" }
-    else
-      nil
-    end
+    remote_name = @repo.config["branch.#{branch.name}.remote"] || "origin"
+    @repo.remotes.find { |r| r.name == "#{remote_name}/#{branch.name}" }
   end
 
   def with_stash
