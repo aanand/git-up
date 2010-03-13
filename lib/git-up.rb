@@ -69,7 +69,7 @@ class GitUp
 
     if stashed
       puts "unstashing".magenta
-      @repo.git.stash({}, "apply")
+      @repo.git.stash({}, "pop")
     end
   end
 
