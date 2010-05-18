@@ -12,7 +12,7 @@ begin
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
 
-    gem.add_dependency "colored"
+    gem.add_dependency "colored", ">= 1.2"
     gem.add_dependency "grit"
   end
   Jeweler::GemcutterTasks.new
