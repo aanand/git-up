@@ -3,11 +3,11 @@ require 'grit'
 
 class GitUp
   def initialize(args)
-    @repo   = Grit::Repo.new(File.expand_path("."))
-    @head   = @repo.head
   end
 
   def run
+    get_repo
+
     system "git fetch"
     raise GitError, "`git fetch` failed" unless $? == 0
 
@@ -46,6 +46,16 @@ class GitUp
   rescue GitError => e
     puts e.message
     exit 1
+  end
+
+  def get_repo
+    git_dir = `git rev-parse --git-dir`
+
+    if $? == 0
+      @repo = Grit::Repo.new(File.dirname(git_dir))
+    else
+      raise GitError, "We don't seem to be in a git repository."
+    end
   end
 
   def remote_for_branch(branch)
