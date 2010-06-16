@@ -9,6 +9,7 @@ class GitUp
 
   def run
     system "git fetch"
+    return unless $? == 0
 
     with_stash do
       returning_to_current_branch do
