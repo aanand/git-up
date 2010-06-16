@@ -9,7 +9,7 @@ class GitUp
 
   def run
     system "git fetch"
-    return unless $? == 0
+    raise GitError, "`git fetch` failed" unless $? == 0
 
     with_stash do
       returning_to_current_branch do
@@ -44,9 +44,8 @@ class GitUp
       end
     end
   rescue GitError => e
-    puts e.message.red
-    puts "Here's what Git said:".red
-    puts e.output
+    puts e.message
+    exit 1
   end
 
   def remote_for_branch(branch)
@@ -121,11 +120,19 @@ class GitUp
   end
 
   class GitError < StandardError
-    attr_reader :output
+    def initialize(message, output=nil)
+      @msg = "#{message.red}"
 
-    def initialize(message, output)
-      super(message)
-      @output = output
+      if output
+        @msg << "\n"
+        @msg << "Here's what Git said:".red
+        @msg << "\n"
+        @msg << output
+      end
+    end
+
+    def message
+      @msg
     end
   end
 end
