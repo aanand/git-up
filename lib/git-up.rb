@@ -3,7 +3,8 @@ require 'grit'
 
 class GitUp
   def run
-    system "git", "fetch", "--all"
+    remotes = remote_map.values.map {|r| r.name.split('/', 2).first}.uniq
+    system('git', 'fetch', '--multiple', *remotes)
     raise GitError, "`git fetch` failed" unless $? == 0
 
     with_stash do
