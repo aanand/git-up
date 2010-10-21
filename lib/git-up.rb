@@ -43,6 +43,8 @@ class GitUp
         end
       end
     end
+
+    check_bundler
   rescue GitError => e
     puts e.message
     exit 1
@@ -114,6 +116,18 @@ class GitUp
 
     unless on_branch?(current_branch.name) and is_fast_forward?(current_branch, target_branch)
       raise GitError.new("Failed to rebase #{current_branch.name} onto #{target_branch.name}", output+err)
+    end
+  end
+
+  def check_bundler
+    return unless File.exists? 'Gemfile'
+
+    begin
+      require 'bundler'
+      ENV['BUNDLE_GEMFILE'] ||= File.expand_path('Gemfile')
+      Bundler.setup
+    rescue Bundler::GemNotFound
+      puts 'Gems are missing.  You should `bundle install`.'.yellow
     end
   end
 
