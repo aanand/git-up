@@ -120,7 +120,7 @@ class GitUp
   end
 
   def check_bundler
-    return unless File.exists? 'Gemfile'
+    return unless use_bundler?
 
     begin
       require 'bundler'
@@ -158,6 +158,12 @@ class GitUp
     def message
       @msg
     end
+  end
+
+private
+
+  def use_bundler?
+    ENV['GIT_UP_BUNDLER_CHECK'] == 'true' and File.exists? 'Gemfile'
   end
 end
 
