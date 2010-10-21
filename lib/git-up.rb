@@ -8,7 +8,10 @@ class GitUp
   def run
     get_repo
 
-    system "git fetch"
+    remotes = @repo.branches.map {|b| remote_for_branch(b)}.
+      compact.map {|r| r.name.split('/', 2).first}.uniq
+
+    system('git', 'fetch', '--multiple', *remotes)
     raise GitError, "`git fetch` failed" unless $? == 0
 
     with_stash do
