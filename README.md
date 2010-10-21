@@ -12,3 +12,11 @@ although
 
 `git-up` might mess up your branches, or set your chest hair on fire, or be racist to your cat, I don't know. It works for me.
 
+configuration
+-------------
+
+`git-up` now has some configuration.  Yay.
+
+As of `v0.4.1`, `git-up` can check your app for any new bundled gems and suggest a `bundle install` if necessary.
+
+It slows the process down slightly, and is therefore enabled by setting `GIT_UP_BUNDLER_CHECK='true'` in your `.bashrc`, `.profile`, or whatever.
