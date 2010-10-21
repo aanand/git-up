@@ -1,23 +1,27 @@
 require 'rubygems'
 require 'rake'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "git-up"
-    gem.summary = %Q{git command to fetch and rebase all branches}
-    gem.email = "aanand.prasad@gmail.com"
-    gem.homepage = "http://github.com/aanand/git-up"
-    gem.authors = ["Aanand Prasad"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-
-    gem.add_dependency "colored", ">= 1.2"
-    gem.add_dependency "grit"
+def gemspec
+  @gemspec ||= begin
+    file = File.expand_path('../git-up.gemspec', __FILE__)
+    eval(File.read(file), binding, file)
   end
-  Jeweler::GemcutterTasks.new
+end
+
+begin
+  require 'rake/gempackagetask'
 rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
+  task(:gem) { $stderr.puts '`gem install rake` to package gems' }
+else
+  Rake::GemPackageTask.new(gemspec) do |pkg|
+    pkg.gem_spec = gemspec
+  end
+  task :gem => :gemspec
+end
+
+desc "validate the gemspec"
+task :gemspec do
+  gemspec.validate
 end
 
 require 'rake/testtask'
