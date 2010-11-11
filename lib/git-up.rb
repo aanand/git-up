@@ -126,7 +126,7 @@ class GitUp
       require 'bundler'
       ENV['BUNDLE_GEMFILE'] ||= File.expand_path('Gemfile')
       Bundler.setup
-    rescue Bundler::GemNotFound
+    rescue Bundler::GemNotFound, Bundler::GitError
       puts 'Gems are missing.  You should `bundle install`.'.yellow
     end
   end
