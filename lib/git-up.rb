@@ -8,7 +8,7 @@ class GitUp
   def run
     get_repo
 
-    system "git fetch"
+    system('git', 'fetch', '--multiple', *@repo.remote_list)
     raise GitError, "`git fetch` failed" unless $? == 0
 
     with_stash do
@@ -61,8 +61,10 @@ class GitUp
   end
 
   def remote_for_branch(branch)
-    remote_name = @repo.config["branch.#{branch.name}.remote"] || "origin"
-    @repo.remotes.find { |r| r.name == "#{remote_name}/#{branch.name}" }
+    remote_name   = @repo.config["branch.#{branch.name}.remote"] || "origin"
+    remote_branch = @repo.config["branch.#{branch.name}.merge"]
+    remote_branch.gsub!(%r{refs/heads/}, '') if remote_branch
+    @repo.remotes.find { |r| r.name == "#{remote_name}/#{remote_branch}" }
   end
 
   def with_stash
