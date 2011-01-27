@@ -2,9 +2,6 @@ require 'colored'
 require 'grit'
 
 class GitUp
-  def initialize(args)
-  end
-
   def run
     get_repo
 
