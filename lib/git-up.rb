@@ -3,17 +3,15 @@ require 'grit'
 
 class GitUp
   def run
-    get_repo
-
-    system "git fetch"
+    system "git", "fetch", "--all"
     raise GitError, "`git fetch` failed" unless $? == 0
 
     with_stash do
       returning_to_current_branch do
-        col_width = @repo.branches.map { |b| b.name.length }.max + 1
+        col_width = branches.map { |b| b.name.length }.max + 1
 
-        @repo.branches.each do |branch|
-          next unless remote = remote_for_branch(branch)
+        branches.each do |branch|
+          remote = remote_map[branch.name]
 
           print branch.name.ljust(col_width)
 
@@ -47,6 +45,10 @@ class GitUp
     exit 1
   end
 
+  def repo
+    @repo ||= get_repo
+  end
+
   def get_repo
     git_dir = `git rev-parse --git-dir`
 
@@ -57,20 +59,36 @@ class GitUp
     end
   end
 
+  def branches
+    @branches ||= repo.branches.select { |b| remote_map.has_key?(b.name) }
+  end
+
+  def remote_map
+    @remote_map ||= repo.branches.inject({}) { |map, branch|
+      if remote = remote_for_branch(branch)
+        map[branch.name] = remote
+      end
+
+      map
+    }
+  end
+
   def remote_for_branch(branch)
-    remote_name = @repo.config["branch.#{branch.name}.remote"] || "origin"
-    @repo.remotes.find { |r| r.name == "#{remote_name}/#{branch.name}" }
+    remote_name   = repo.config["branch.#{branch.name}.remote"] || "origin"
+    remote_branch = repo.config["branch.#{branch.name}.merge"] || branch.name
+    remote_branch.sub!(%r{^refs/heads/}, '')
+    repo.remotes.find { |r| r.name == "#{remote_name}/#{remote_branch}" }
   end
 
   def with_stash
     stashed = false
 
-    status = @repo.status
+    status = repo.status
     change_count = status.added.length + status.changed.length + status.deleted.length
 
     if change_count > 0
       puts "stashing #{change_count} changes".magenta
-      @repo.git.stash
+      repo.git.stash
       stashed = true
     end
 
@@ -78,17 +96,17 @@ class GitUp
 
     if stashed
       puts "unstashing".magenta
-      @repo.git.stash({}, "pop")
+      repo.git.stash({}, "pop")
     end
   end
 
   def returning_to_current_branch
-    unless @repo.head.respond_to?(:name)
+    unless repo.head.respond_to?(:name)
       puts "You're not currently on a branch. I'm exiting in case you're in the middle of something.".red
       return
     end
 
-    branch_name = @repo.head.name
+    branch_name = repo.head.name
 
     yield
 
@@ -99,7 +117,7 @@ class GitUp
   end
 
   def checkout(branch_name)
-    output = @repo.git.checkout({}, branch_name)
+    output = repo.git.checkout({}, branch_name)
 
     unless on_branch?(branch_name)
       raise GitError.new("Failed to checkout #{branch_name}", output)
@@ -107,9 +125,9 @@ class GitUp
   end
 
   def rebase(target_branch)
-    current_branch = @repo.head
+    current_branch = repo.head
 
-    output, err = @repo.git.sh("#{Grit::Git.git_binary} rebase #{target_branch.name}")
+    output, err = repo.git.sh("#{Grit::Git.git_binary} rebase #{target_branch.name}")
 
     unless on_branch?(current_branch.name) and is_fast_forward?(current_branch, target_branch)
       raise GitError.new("Failed to rebase #{current_branch.name} onto #{target_branch.name}", output+err)
@@ -133,11 +151,11 @@ class GitUp
   end
 
   def merge_base(a, b)
-    @repo.git.send("merge-base", {}, a, b).strip
+    repo.git.send("merge-base", {}, a, b).strip
   end
 
   def on_branch?(branch_name=nil)
-    @repo.head.respond_to?(:name) and @repo.head.name == branch_name
+    repo.head.respond_to?(:name) and repo.head.name == branch_name
   end
 
   class GitError < StandardError
