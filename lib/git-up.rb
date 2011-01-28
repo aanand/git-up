@@ -3,7 +3,6 @@ require 'grit'
 
 class GitUp
   def run
-    remotes = remote_map.values.map {|r| r.name.split('/', 2).first}.uniq
     system('git', 'fetch', '--multiple', *remotes)
     raise GitError, "`git fetch` failed" unless $? == 0
 
@@ -62,6 +61,10 @@ class GitUp
 
   def branches
     @branches ||= repo.branches.select { |b| remote_map.has_key?(b.name) }
+  end
+
+  def remotes
+    @remotes ||= remote_map.values.map { |r| r.name.split('/', 2).first }.uniq
   end
 
   def remote_map
