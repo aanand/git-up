@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "git-up"
   s.version     = GitUp::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Aanand Prasad", "Elliot Crosby-McCullough"]
+  s.authors     = ["Aanand Prasad", "Elliot Crosby-McCullough", "Adrian Irving-Beer", "Joshua Wehner"]
   s.email       = ["aanand.prasad@gmail.com", "elliot.cm@gmail.com"]
   s.homepage    = "http://github.com/aanand/git-up"
   s.summary     = "git command to fetch and rebase all branches"
