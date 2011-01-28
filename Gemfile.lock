@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    git-up (0.4.2)
+    git-up (0.4.3)
       colored (>= 1.2)
       grit
 
