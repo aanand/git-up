@@ -20,3 +20,5 @@ configuration
 As of `v0.4.1`, `git-up` can check your app for any new bundled gems and suggest a `bundle install` if necessary.
 
 It slows the process down slightly, and is therefore enabled by setting `GIT_UP_BUNDLER_CHECK='true'` in your `.bashrc`, `.profile`, or whatever.
+
+`v0.5.0` brings with it a check for pending Rails migrations.  This is slower even than the Bundler check if you're running a lumbering beast of a project.  It is enabled with `GIT_UP_MIGRATION_CHECK='true'`.
