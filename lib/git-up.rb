@@ -39,7 +39,7 @@ class GitUp
       end
     end
 
-    check_bundler
+    check_migrations if check_bundler
   rescue GitError => e
     puts e.message
     exit 1
@@ -145,8 +145,28 @@ class GitUp
       require 'bundler'
       ENV['BUNDLE_GEMFILE'] ||= File.expand_path('Gemfile')
       Bundler.setup
+      return true
     rescue Bundler::GemNotFound, Bundler::GitError
       puts 'Gems are missing.  You should `bundle install`.'.yellow
+      return false
+    end
+  end
+
+  def check_migrations
+    return unless use_migrations?
+
+    require 'config/environment'
+
+    if defined? ActiveRecord
+      pending_migrations = ActiveRecord::Migrator.new(:up, ActiveRecord::Migrator.migrations_path).pending_migrations
+
+      if pending_migrations.any?
+        puts "You have #{pending_migrations.size} pending migrations:".yellow
+        pending_migrations.each do |pending_migration|
+          puts ('  %4d %s' % [pending_migration.version, pending_migration.name]).yellow
+        end
+        puts %{Run "rake db:migrate" to update your database then try again.}.yellow
+      end
     end
   end
 
@@ -183,6 +203,10 @@ private
 
   def use_bundler?
     ENV['GIT_UP_BUNDLER_CHECK'] == 'true' and File.exists? 'Gemfile'
+  end
+
+  def use_migrations?
+    ENV['GIT_UP_MIGRATION_CHECK'] == 'true' and File.directory? 'db/migrate' and File.exists? 'config/environment.rb'
   end
 end
 
