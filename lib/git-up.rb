@@ -5,6 +5,7 @@ class GitUp
   def run
     system('git', 'fetch', '--multiple', *remotes)
     raise GitError, "`git fetch` failed" unless $? == 0
+    @remote_map = nil # flush cache after fetch
 
     with_stash do
       returning_to_current_branch do
