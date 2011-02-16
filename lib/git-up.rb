@@ -148,6 +148,7 @@ class GitUp
       Bundler.setup
     rescue Bundler::GemNotFound, Bundler::GitError
       puts 'Gems are missing.  You should `bundle install`.'.yellow
+      system('bundle install') if ENV['GIT_UP_BUNDLER_AUTOINSTALL'] == 'true'
     end
   end
 

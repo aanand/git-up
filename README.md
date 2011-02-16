@@ -20,3 +20,5 @@ configuration
 As of `v0.4.1`, `git-up` can check your app for any new bundled gems and suggest a `bundle install` if necessary.
 
 It slows the process down slightly, and is therefore enabled by setting `GIT_UP_BUNDLER_CHECK='true'` in your `.bashrc`, `.profile`, or whatever.
+
+If you want git-up to auto-install missing gems, set `GIT_UP_BUNDLER_AUTOINSTALL='true'`.
