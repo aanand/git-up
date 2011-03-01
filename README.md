@@ -15,8 +15,14 @@ although
 configuration
 -------------
 
-`git-up` now has some configuration.  Yay.
+`git-up` can check your app for any new bundled gems and suggest a `bundle install` if necessary.
 
-As of `v0.4.1`, `git-up` can check your app for any new bundled gems and suggest a `bundle install` if necessary.
+It slows the process down slightly, and is therefore enabled by setting `git-up.bundler.check` to `true` in your git config, either globally or per-project. To set it globally, run this command anywhere:
 
-It slows the process down slightly, and is therefore enabled by setting `GIT_UP_BUNDLER_CHECK='true'` in your `.bashrc`, `.profile`, or whatever.
+    git config --global git-up.bundler.check true
+
+To set it within a project, run this command inside that project's directory:
+
+    git config git-up.bundler.check true
+
+Replace 'true' with 'false' to disable checking.

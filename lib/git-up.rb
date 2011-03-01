@@ -183,7 +183,33 @@ class GitUp
 private
 
   def use_bundler?
-    ENV['GIT_UP_BUNDLER_CHECK'] == 'true' and File.exists? 'Gemfile'
+    use_bundler_config? and File.exists? 'Gemfile'
+  end
+
+  def use_bundler_config?
+    if ENV.has_key?('GIT_UP_BUNDLER_CHECK')
+      puts <<-EOS.yellow
+The GIT_UP_BUNDLER_CHECK environment variable is deprecated.
+You can now tell git-up to check (or not check) for missing
+gems on a per-project basis using git's config system. To
+set it globally, run this command anywhere:
+
+    git config --global git-up.bundler.check true
+
+To set it within a project, run this command inside that
+project's directory:
+
+    git config git-up.bundler.check true
+
+Replace 'true' with 'false' to disable checking.
+EOS
+    end
+
+    config("bundler.check") == 'true' || ENV['GIT_UP_BUNDLER_CHECK'] == 'true'
+  end
+
+  def config(key)
+    repo.config["git-up.#{key}"]
   end
 end
 
