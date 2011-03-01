@@ -26,3 +26,5 @@ To set it within a project, run this command inside that project's directory:
     git config git-up.bundler.check true
 
 Replace 'true' with 'false' to disable checking.
+
+If you're even lazier, you can tell `git-up` to run `bundle install` for you if it finds missing gems. Simply set `git-up.bundler.autoinstall` to `true`, in the same manner. As above, it works globally or per-project, but make sure `git-up.bundler.check` is also set to `true` or it won't do anything.
