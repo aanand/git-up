@@ -132,7 +132,8 @@ class GitUp
   def rebase(target_branch)
     current_branch = repo.head
 
-    output, err = repo.git.sh("#{Grit::Git.git_binary} rebase #{target_branch.name}")
+    rebase_options = config("options.rebase")
+    output, err = repo.git.sh("#{Grit::Git.git_binary} rebase #{rebase_options} #{target_branch.name}")
 
     unless on_branch?(current_branch.name) and is_fast_forward?(current_branch, target_branch)
       raise GitError.new("Failed to rebase #{current_branch.name} onto #{target_branch.name}", output+err)
