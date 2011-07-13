@@ -24,18 +24,18 @@ class GitUp
           base = merge_base(branch.name, remote.name)
 
           if base == remote.commit.sha
-            puts "ahead of upstream".green
+            puts "ahead of upstream".blue
             next
           end
 
           if base == branch.commit.sha
             puts "fast-forwarding...".yellow
+            checkout(branch.name)
+            rebase(remote)
           else
-            puts "rebasing...".yellow
+            puts "diverged".red
           end
 
-          checkout(branch.name)
-          rebase(remote)
         end
       end
     end
