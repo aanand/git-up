@@ -145,6 +145,7 @@ class GitUp
     begin
       require 'bundler'
       ENV['BUNDLE_GEMFILE'] ||= File.expand_path('Gemfile')
+      Gem.loaded_specs.clear
       Bundler.setup
     rescue Bundler::GemNotFound, Bundler::GitError
       puts
