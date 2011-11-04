@@ -5,7 +5,7 @@ class GitUp
   def run
     command = ['git', 'fetch', '--multiple']
     command << '--prune' if prune?
-    command += remotes
+    command += config("fetch.all") ? ['--all'] : remotes
 
     # puts command.join(" ") # TODO: implement a 'debug' config option
     system(*command)
