@@ -51,10 +51,11 @@ class GitUp
   end
 
   def get_repo
-    git_dir = `git rev-parse --git-dir`
+    repo_dir = `git rev-parse --show-toplevel`.chomp
 
     if $? == 0
-      @repo = Grit::Repo.new(File.dirname(git_dir))
+      Dir.chdir repo_dir
+      @repo = Grit::Repo.new(repo_dir)
     else
       raise GitError, "We don't seem to be in a git repository."
     end
