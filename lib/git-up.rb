@@ -3,7 +3,7 @@ require 'grit'
 
 class GitUp
   def run
-    system('git', 'fetch', '--multiple', *remotes)
+    system('git', 'fetch', '--multiple', '--prune', *remotes)
     raise GitError, "`git fetch` failed" unless $? == 0
     @remote_map = nil # flush cache after fetch
 
