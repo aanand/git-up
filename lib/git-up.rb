@@ -9,34 +9,7 @@ class GitUp
 
     with_stash do
       returning_to_current_branch do
-        col_width = branches.map { |b| b.name.length }.max + 1
-
-        branches.each do |branch|
-          remote = remote_map[branch.name]
-
-          print branch.name.ljust(col_width)
-
-          if remote.commit.sha == branch.commit.sha
-            puts "up to date".green
-            next
-          end
-
-          base = merge_base(branch.name, remote.name)
-
-          if base == remote.commit.sha
-            puts "ahead of upstream".green
-            next
-          end
-
-          if base == branch.commit.sha
-            puts "fast-forwarding...".yellow
-          else
-            puts "rebasing...".yellow
-          end
-
-          checkout(branch.name)
-          rebase(remote)
-        end
+        rebase_all_branches
       end
     end
 
@@ -44,6 +17,37 @@ class GitUp
   rescue GitError => e
     puts e.message
     exit 1
+  end
+
+  def rebase_all_branches
+    col_width = branches.map { |b| b.name.length }.max + 1
+
+    branches.each do |branch|
+      remote = remote_map[branch.name]
+
+      print branch.name.ljust(col_width)
+
+      if remote.commit.sha == branch.commit.sha
+        puts "up to date".green
+        next
+      end
+
+      base = merge_base(branch.name, remote.name)
+
+      if base == remote.commit.sha
+        puts "ahead of upstream".green
+        next
+      end
+
+      if base == branch.commit.sha
+        puts "fast-forwarding...".yellow
+      else
+        puts "rebasing...".yellow
+      end
+
+      checkout(branch.name)
+      rebase(remote)
+    end
   end
 
   def repo
