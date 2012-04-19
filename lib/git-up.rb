@@ -7,6 +7,7 @@ class GitUp
     command << '--prune' if prune?
     command += remotes
 
+    # puts command.join(" ") # TODO: implement a 'debug' config option
     system(*command)
     raise GitError, "`git fetch` failed" unless $? == 0
     @remote_map = nil # flush cache after fetch
@@ -223,21 +224,26 @@ EOS
   end
 
   def prune?
+    required_version = "1.6.6"
     config_value = config("fetch.prune")
 
-    case config_value
-    when 'false'
+    if git_version < required_version
+      if config_value == 'true'
+        puts "Warning: fetch.prune is set to 'true' but your git version doesn't seem to support it (#{git_version} < #{required_version}). Defaulting to 'false'.".yellow
+      end
+
       false
-    when nil, 'true'
-      true
     else
-      puts "Warning: nonsensical value #{config_value.inspect} for fetch.prune. Defaulting to \"true\".".yellow
-      true
+      config_value != 'false'
     end
   end
 
   def config(key)
     repo.config["git-up.#{key}"]
+  end
+
+  def git_version
+    `git --version`[/\d+(\.\d+)+/]
   end
 end
 
