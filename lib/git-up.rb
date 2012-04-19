@@ -3,7 +3,11 @@ require 'grit'
 
 class GitUp
   def run
-    system('git', 'fetch', '--multiple', '--prune', *remotes)
+    command = ['git', 'fetch', '--multiple']
+    command << '--prune' if prune?
+    command += remotes
+
+    system(*command)
     raise GitError, "`git fetch` failed" unless $? == 0
     @remote_map = nil # flush cache after fetch
 
@@ -216,6 +220,20 @@ EOS
     end
 
     config("bundler.check") == 'true' || ENV['GIT_UP_BUNDLER_CHECK'] == 'true'
+  end
+
+  def prune?
+    config_value = config("fetch.prune")
+
+    case config_value
+    when 'false'
+      false
+    when nil, 'true'
+      true
+    else
+      puts "Warning: nonsensical value #{config_value.inspect} for fetch.prune. Defaulting to \"true\".".yellow
+      true
+    end
   end
 
   def config(key)
