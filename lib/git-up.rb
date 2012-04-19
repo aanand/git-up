@@ -7,9 +7,11 @@ class GitUp
     raise GitError, "`git fetch` failed" unless $? == 0
     @remote_map = nil # flush cache after fetch
 
-    with_stash do
-      returning_to_current_branch do
-        rebase_all_branches
+    Grit::Git.with_timeout(0) do
+      with_stash do
+        returning_to_current_branch do
+          rebase_all_branches
+        end
       end
     end
 
