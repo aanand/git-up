@@ -7,35 +7,38 @@ class GitUp
     raise GitError, "`git fetch` failed" unless $? == 0
     @remote_map = nil # flush cache after fetch
 
-    with_stash do
-      returning_to_current_branch do
-        col_width = branches.map { |b| b.name.length }.max + 1
+    # no timeout needed for a command line application
+    Grit::Git.with_timeout(0) do
+      with_stash do
+        returning_to_current_branch do
+          col_width = branches.map { |b| b.name.length }.max + 1
 
-        branches.each do |branch|
-          remote = remote_map[branch.name]
+          branches.each do |branch|
+            remote = remote_map[branch.name]
 
-          print branch.name.ljust(col_width)
+            print branch.name.ljust(col_width)
 
-          if remote.commit.sha == branch.commit.sha
-            puts "up to date".green
-            next
+            if remote.commit.sha == branch.commit.sha
+              puts "up to date".green
+              next
+            end
+
+            base = merge_base(branch.name, remote.name)
+
+            if base == remote.commit.sha
+              puts "ahead of upstream".green
+              next
+            end
+
+            if base == branch.commit.sha
+              puts "fast-forwarding...".yellow
+            else
+              puts "rebasing...".yellow
+            end
+
+            checkout(branch.name)
+            rebase(remote)
           end
-
-          base = merge_base(branch.name, remote.name)
-
-          if base == remote.commit.sha
-            puts "ahead of upstream".green
-            next
-          end
-
-          if base == branch.commit.sha
-            puts "fast-forwarding...".yellow
-          else
-            puts "rebasing...".yellow
-          end
-
-          checkout(branch.name)
-          rebase(remote)
         end
       end
     end
