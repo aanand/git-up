@@ -3,7 +3,12 @@ require 'grit'
 
 class GitUp
   def run
-    system('git', 'fetch', '--multiple', *remotes)
+    command = ['git', 'fetch', '--multiple']
+    command << '--prune' if prune?
+    command += remotes
+
+    # puts command.join(" ") # TODO: implement a 'debug' config option
+    system(*command)
     raise GitError, "`git fetch` failed" unless $? == 0
     @remote_map = nil # flush cache after fetch
 
@@ -224,8 +229,27 @@ EOS
     config("bundler.check") == 'true' || ENV['GIT_UP_BUNDLER_CHECK'] == 'true'
   end
 
+  def prune?
+    required_version = "1.6.6"
+    config_value = config("fetch.prune")
+
+    if git_version < required_version
+      if config_value == 'true'
+        puts "Warning: fetch.prune is set to 'true' but your git version doesn't seem to support it (#{git_version} < #{required_version}). Defaulting to 'false'.".yellow
+      end
+
+      false
+    else
+      config_value != 'false'
+    end
+  end
+
   def config(key)
     repo.config["git-up.#{key}"]
+  end
+
+  def git_version
+    `git --version`[/\d+(\.\d+)+/]
   end
 end
 
