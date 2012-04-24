@@ -233,19 +233,27 @@ EOS
     required_version = "1.6.6"
     config_value = config("fetch.prune")
 
-    if git_version < required_version
+    if git_version_at_least?(required_version)
+      config_value != 'false'
+    else
       if config_value == 'true'
         puts "Warning: fetch.prune is set to 'true' but your git version doesn't seem to support it (#{git_version} < #{required_version}). Defaulting to 'false'.".yellow
       end
 
       false
-    else
-      config_value != 'false'
     end
   end
 
   def config(key)
     repo.config["git-up.#{key}"]
+  end
+
+  def git_version_at_least?(required_version)
+    (version_array(git_version) <=> version_array(required_version)) >= 0
+  end
+
+  def version_array(version_string)
+    version_string.split('.').map { |s| s.to_i }
   end
 
   def git_version
