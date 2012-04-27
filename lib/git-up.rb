@@ -100,9 +100,6 @@ class GitUp
   def with_stash
     stashed = false
 
-    status = repo.status
-    change_count = status.added.length + status.changed.length + status.deleted.length
-
     if change_count > 0
       puts "stashing #{change_count} changes".magenta
       repo.git.stash
@@ -241,6 +238,19 @@ EOS
       end
 
       false
+    end
+  end
+
+  def change_count
+    @change_count ||= begin
+      diff_status   = repo.status
+      actual_status = repo.git.status(:porcelain => true).split("\n").map {|l| l[3..-1]}
+    
+      added         = Hash[diff_status.added.each_pair.select { |(x,y)| actual_status.include? x }]
+      changed       = Hash[diff_status.changed.each_pair.select { |(x,y)| actual_status.include? x }]
+      deleted       = Hash[diff_status.deleted.each_pair.select { |(x,y)| actual_status.include? x }]
+    
+      added.length + changed.length + deleted.length
     end
   end
 
