@@ -246,9 +246,9 @@ EOS
       diff_status   = repo.status
       actual_status = repo.git.status(:porcelain => true).split("\n").map {|l| l[3..-1]}
     
-      added         = Hash[diff_status.added.each_pair.select { |(x,y)| actual_status.include? x }]
-      changed       = Hash[diff_status.changed.each_pair.select { |(x,y)| actual_status.include? x }]
-      deleted       = Hash[diff_status.deleted.each_pair.select { |(x,y)| actual_status.include? x }]
+      added         = diff_status.added.select { |(x,y)| actual_status.include? x }
+      changed       = diff_status.changed.select { |(x,y)| actual_status.include? x }
+      deleted       = diff_status.deleted.select { |(x,y)| actual_status.include? x }
     
       added.length + changed.length + deleted.length
     end
