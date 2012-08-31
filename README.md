@@ -37,3 +37,7 @@ If you're even lazier, you can tell `git-up` to run `bundle install` for you if 
 ### `git-up.fetch.prune [true|false]`
 
 By default, `git-up` will append the `--prune` flag to the `git fetch` command if your git version supports it (1.6.6 or greater), telling it to [delete any branches which no longer exist on the remote](http://linux.die.net/man/1/git-fetch). Set this option to `false` to disable it.
+
+### `git-up.rebase.arguments [string]`
+
+If this option is set, its contents will be used by `git-up` as additional arguments when it calls `git rebase`. For example, setting this to `--preserve-merges` will recreate your merge commits in the rebased branch.
