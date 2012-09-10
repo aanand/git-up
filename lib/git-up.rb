@@ -29,6 +29,10 @@ class GitUp
   def rebase_all_branches
     col_width = branches.map { |b| b.name.length }.max + 1
 
+    if config("sort")
+      branches.sort_by! { |b| b.name }
+    end
+
     branches.each do |branch|
       remote = remote_map[branch.name]
 
