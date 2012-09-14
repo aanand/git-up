@@ -145,7 +145,7 @@ class GitUp
   end
 
   def log(branch, remote)
-    if log_hook = config("log-hook")
+    if log_hook = config("rebase.log-hook")
       system('sh', '-c', log_hook, 'git-up', branch.name, remote.name)
     end
   end

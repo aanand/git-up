@@ -42,6 +42,6 @@ By default, `git-up` will append the `--prune` flag to the `git fetch` command i
 
 Normally, `git-up` will only fetch remotes for which there is at least one local tracking branch. Setting this option will it `git-up` always fetch from all remotes, which is useful if e.g. you use a remote to push to your CI system but never check those branches out.
 
-### `git-up.log-hook "COMMAND"`
+### `git-up.rebase.log-hook "COMMAND"`
 
-Runs COMMAND every time a branch is updated, with the old head as $1 and the new head as $2. This can be used to view logs or diffs of incoming changes. For example: `'echo "changes on $1:"; git log --oneline --decorate $1..$2'`
+Runs COMMAND every time a branch is rebased or fast-forwarded, with the old head as $1 and the new head as $2. This can be used to view logs or diffs of incoming changes. For example: `'echo "changes on $1:"; git log --oneline --decorate $1..$2'`
