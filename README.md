@@ -37,3 +37,11 @@ If you're even lazier, you can tell `git-up` to run `bundle install` for you if 
 ### `git-up.fetch.prune [true|false]`
 
 By default, `git-up` will append the `--prune` flag to the `git fetch` command if your git version supports it (1.6.6 or greater), telling it to [delete any branches which no longer exist on the remote](http://linux.die.net/man/1/git-fetch). Set this option to `false` to disable it.
+
+### `git-up.fetch.all [true|false]`
+
+Normally, `git-up` will only fetch remotes for which there is at least one local tracking branch. Setting this option will it `git-up` always fetch from all remotes, which is useful if e.g. you use a remote to push to your CI system but never check those branches out.
+
+### `git-up.rebase.log-hook "COMMAND"`
+
+Runs COMMAND every time a branch is rebased or fast-forwarded, with the old head as $1 and the new head as $2. This can be used to view logs or diffs of incoming changes. For example: `'echo "changes on $1:"; git log --oneline --decorate $1..$2'`

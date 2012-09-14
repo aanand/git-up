@@ -5,7 +5,7 @@ class GitUp
   def run
     command = ['git', 'fetch', '--multiple']
     command << '--prune' if prune?
-    command += remotes
+    command += config("fetch.all") ? ['--all'] : remotes
 
     # puts command.join(" ") # TODO: implement a 'debug' config option
     system(*command)
@@ -28,6 +28,11 @@ class GitUp
 
   def rebase_all_branches
     col_width = branches.map { |b| b.name.length }.max + 1
+
+    branches.sort_by! do |b|
+      # perhaps add some way to customize sorting?
+      b.name
+    end
 
     branches.each do |branch|
       remote = remote_map[branch.name]
@@ -52,6 +57,7 @@ class GitUp
         puts "rebasing...".yellow
       end
 
+      log(branch, remote)
       checkout(branch.name)
       rebase(remote)
     end
@@ -135,6 +141,12 @@ class GitUp
 
     unless on_branch?(branch_name)
       raise GitError.new("Failed to checkout #{branch_name}", output)
+    end
+  end
+
+  def log(branch, remote)
+    if log_hook = config("rebase.log-hook")
+      system('sh', '-c', log_hook, 'git-up', branch.name, remote.name)
     end
   end
 
