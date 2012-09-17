@@ -36,7 +36,7 @@ If you're even lazier, you can tell `git-up` to run `bundle install` for you if 
 
 ### `git-up.fetch.prune [true|false]`
 
-By default, `git-up` will append the `--prune` flag to the `git fetch` command if your git version supports it (1.6.6 or greater), telling it to [delete any branches which no longer exist on the remote](http://linux.die.net/man/1/git-fetch). Set this option to `false` to disable it.
+By default, `git-up` will append the `--prune` flag to the `git fetch` command if your git version supports it (1.6.6 or greater), telling it to [remove any remote tracking branches which no longer exist on the remote](http://linux.die.net/man/1/git-fetch). Set this option to `false` to disable it.
 
 ### `git-up.fetch.all [true|false]`
 
