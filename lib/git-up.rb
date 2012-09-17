@@ -256,14 +256,7 @@ EOS
 
   def change_count
     @change_count ||= begin
-      diff_status   = repo.status
-      actual_status = repo.git.status(:porcelain => true).split("\n").map {|l| l[3..-1]}
-    
-      added         = diff_status.added.select { |(x,y)| actual_status.include? x }
-      changed       = diff_status.changed.select { |(x,y)| actual_status.include? x }
-      deleted       = diff_status.deleted.select { |(x,y)| actual_status.include? x }
-    
-      added.length + changed.length + deleted.length
+      repo.git.status(:porcelain => true, :'untracked-files' => 'no').split("\n").count
     end
   end
 
