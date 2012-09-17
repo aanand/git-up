@@ -1,9 +1,12 @@
 git-up
 ======
 
-So `git pull` merges by default, when it [should really rebase](http://www.gitready.com/advanced/2009/02/11/pull-with-rebase.html). You can [ask it to rebase instead](http://d.strelau.net/post/47338904/git-pull-rebase-by-default), but it still won't touch anything other than the currently checked-out branch. If you're tracking a bunch of remote branches, you'll get non-fast-forward complaints next time you push.
+`git pull` has two problems:
 
-Solve it once and for all:
+* It merges upstream changes by default, when it's really more polite to [rebase over them](http://www.gitready.com/advanced/2009/02/11/pull-with-rebase.html), unless your collaborators enjoy a commit history that looks like bedhead.
+* It only updates the branch you're currently on, which means `git push` will shout at you for being behind on branches you don't particularly care about right now.
+
+Solve them once and for all:
 
 ![gem install git-up](http://dl.dropbox.com/u/166030/nonsense/git-up.png)
 
