@@ -29,11 +29,6 @@ class GitUp
   def rebase_all_branches
     col_width = branches.map { |b| b.name.length }.max + 1
 
-    branches.sort_by! do |b|
-      # perhaps add some way to customize sorting?
-      b.name
-    end
-
     branches.each do |branch|
       remote = remote_map[branch.name]
 
@@ -82,7 +77,7 @@ class GitUp
   end
 
   def branches
-    @branches ||= repo.branches.select { |b| remote_map.has_key?(b.name) }
+    @branches ||= repo.branches.select { |b| remote_map.has_key?(b.name) }.sort_by { |b| b.name }
   end
 
   def remotes
