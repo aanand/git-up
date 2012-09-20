@@ -49,6 +49,10 @@ Normally, `git-up` will only fetch remotes for which there is at least one local
 
 If this option is set, its contents will be used by `git-up` as additional arguments when it calls `git rebase`. For example, setting this to `--preserve-merges` will recreate your merge commits in the rebased branch.
 
+### `git-up.rebase.auto [true|false]`
+
+If this option is set to false, `git-up` will not rebase branches for you. Instead, it will print a message saying they are diverged and let you handle rebasing them later. This can be useful if you have a lot of in-progress work that you don't want to deal with at once, but still want to update other branches.
+
 ### `git-up.rebase.log-hook "COMMAND"`
 
 Runs COMMAND every time a branch is rebased or fast-forwarded, with the old head as $1 and the new head as $2. This can be used to view logs or diffs of incoming changes. For example: `'echo "changes on $1:"; git log --oneline --decorate $1..$2'`
