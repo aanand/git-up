@@ -13,6 +13,8 @@ install
 
     $ gem install git-up
 
+RVM user? [read this](https://github.com/aanand/git-up/blob/master/RVM.md).
+
 use
 ---
 
