@@ -23,6 +23,11 @@ although
 
 `git-up` might mess up your branches, or set your chest hair on fire, or be racist to your cat, I don't know. It works for me.
 
+windows
+-------
+
+Windows support is an ongoing pain. Have a look at [this ticket](https://github.com/aanand/git-up/issues/34) if you really need it, or if you're bored.
+
 spawn.rb:187:in `_pspawn': Invalid command name (ArgumentError)
 ---------------------------------------------------------------
 
