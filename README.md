@@ -57,7 +57,7 @@ If you're even lazier, you can tell `git-up` to run `bundle install` for you if 
 
 ### `git-up.bundler.local [true|false]`
 
-If you've `bundle package`-ed your project gems, you can tell `git-up` to run `bundle install --local` for you if it finds missing gems. Much faster than just a plain old `bundle install`. Make sure `git-up.bundler.autoinstall` is also set to `true` or it won't do anything.
+If you've `bundle package`-ed your project gems, you can tell `git-up` to run `bundle install --local` for you if it finds missing gems. Much faster than just a plain old `bundle install`. Don't worry if you're missing gems, it will backtrack to `bundle install` if anything goes wrong. Make sure `git-up.bundler.autoinstall` is also set to `true` or it won't do anything.
 
 ### `git-up.bundler.rbenv [true|false]`
 

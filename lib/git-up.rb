@@ -174,7 +174,10 @@ class GitUp
       if config("bundler.autoinstall") == 'true'
         if config("bundler.local") == 'true'
           puts "Running `bundle install --local`.".yellow
-          system "bundle", "install", "--local"
+          unless system "bundle", "install", "--local"
+            puts "Problem running `bundle install --local`. Running `bundle install` instead.".yellow
+            system "bundle", "install"
+          end
         else
           puts "Running `bundle install`.".yellow
           system "bundle", "install"
