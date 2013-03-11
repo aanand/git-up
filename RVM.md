@@ -14,19 +14,19 @@ ruby interpreter in the environment, and the way git interprets and
 executes `git up`.
 
 When you run `git [some command]` git will first look internally to see
-if it can fulfil the command, then it will attempt to "shell out" and run
+if it can fulfill the command, then it will attempt to "shell out" and run
 whatever `git-[some command]` executable it can find in your $PATH.
 
 When git "shells out" all of the environmental variables will be
 exposed, and it will be able to find our `git-up` executable in the $PATH.
 However because of the way RVM magically sets your ruby interpreter,
-when `git-up` is ran `ruby` still points to the non-RVM system default.
+when `git-up` is run `ruby` still points to the non-RVM system default.
 
 workaround
 ----------
 
 To fix this we need to make sure that RVM gets to do it's business
-before `git-up` is ran.
+before `git-up` is run.
 
 RVM provides a handy way of doing this called "wrappers", so let's
 generate a wrapper for git-up like so:
