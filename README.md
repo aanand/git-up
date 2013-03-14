@@ -13,6 +13,8 @@ install
 
     $ gem install git-up
 
+Windows support is predictably absent. Try the [Python port](https://github.com/msiemens/PyGitUp), which was started for that reason
+
 use
 ---
 
