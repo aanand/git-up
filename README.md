@@ -57,6 +57,14 @@ It slows the process down slightly, and therefore defaults to `false`.
 
 If you're even lazier, you can tell `git-up` to run `bundle install` for you if it finds missing gems. Make sure `git-up.bundler.check` is also set to `true` or it won't do anything.
 
+### `git-up.bundler.local [true|false]`
+
+If you've `bundle package`-ed your project gems, you can tell `git-up` to run `bundle install --local` for you if it finds missing gems. Much faster than just a plain old `bundle install`. Don't worry if you're missing gems, it will backtrack to `bundle install` if anything goes wrong. Make sure `git-up.bundler.autoinstall` is also set to `true` or it won't do anything.
+
+### `git-up.bundler.rbenv [true|false]`
+
+If you have rbenv installed, you can tell `git-up` to run `rbenv rehash` for you after it installs your gems so any binaries will be available right away. Make sure `git-up.bundler.autoinstall` is also set to `true` or it won't do anything.
+
 ### `git-up.fetch.prune [true|false]`
 
 By default, `git-up` will append the `--prune` flag to the `git fetch` command if your git version supports it (1.6.6 or greater), telling it to [remove any remote tracking branches which no longer exist on the remote](http://linux.die.net/man/1/git-fetch). Set this option to `false` to disable it.

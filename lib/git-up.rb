@@ -172,8 +172,21 @@ class GitUp
       print 'Gems are missing. '.yellow
 
       if config("bundler.autoinstall") == 'true'
-        puts "Running `bundle install`.".yellow
-        system "bundle", "install"
+        if config("bundler.local") == 'true'
+          puts "Running `bundle install --local`.".yellow
+          unless system "bundle", "install", "--local"
+            puts "Problem running `bundle install --local`. Running `bundle install` instead.".yellow
+            system "bundle", "install"
+          end
+        else
+          puts "Running `bundle install`.".yellow
+          system "bundle", "install"
+        end
+        
+        if config("bundler.rbenv") == 'true'
+          puts "Running `rbenv rehash`.".yellow
+          system "rbenv", "rehash"
+        end
       else
         puts "You should `bundle install`.".yellow
       end
