@@ -1,5 +1,12 @@
 task :default => :test
 
+task :gem do
+  sh "rm -r pkg/*"
+  sh "gem build git-up.gemspec"
+  sh "mv git-up-*.gem pkg"
+  puts "Built " + Dir.glob("pkg/*.gem")[0]
+end
+
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   version = File.exist?('VERSION') ? File.read('VERSION') : ""
