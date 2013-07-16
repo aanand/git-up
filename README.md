@@ -1,5 +1,8 @@
-git-up
-======
+git-up(1) -- fetch and rebase all locally-tracked remote branches
+=================================================================
+
+SYNOPSIS
+--------
 
 `git pull` has two problems:
 
@@ -8,24 +11,24 @@ git-up
 
 Solve them once and for all.
 
-install
+INSTALL
 -------
 
     $ gem install git-up
 
 Windows support is predictably absent. Try the [Python port](https://github.com/msiemens/PyGitUp), which was started for that reason.
 
-use
+USE
 ---
 
 ![$ git up](http://dl.dropbox.com/u/166030/git-up/screenshot.png)
 
-although
+ALTHOUGH
 --------
 
 `git-up` might mess up your branches, or set your chest hair on fire, or be racist to your cat, I don't know. It works for me.
 
-difficulties
+DIFFICULTIES
 ------------
 
 ### Windows
@@ -35,7 +38,7 @@ Windows support is an ongoing pain. Have a look at [this ticket](https://github.
 
 If you're using RVM and you get this error, [read this](https://github.com/aanand/git-up/blob/master/RVM.md).
 
-configuration
+CONFIGURATION
 -------------
 
 `git-up` has a few configuration options, which use git's configuration system. Each can be set either globally or per-project. To set an option globally, append the `--global` flag to `git config`, which you can run anywhere:

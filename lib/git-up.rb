@@ -39,14 +39,41 @@ Fetch and rebase all remotely-tracked branches.
     production     #{"up to date".green}
 
 There are no command-line options, but there are a few
-`git config` variables you can set, which are documented here:
-#{"https://github.com/aanand/git-up#configuration".cyan}
+`git config` variables you can set. For info on those
+and more, check out the man page:
+
+    $ git up man
+
+Or install it to your system, so you can get to it with
+`man git-up` or `git help up`:
+
+    $ git up install-man
 
 BANNER
+
+    man_path = File.expand_path('../../man/git-up.1', __FILE__)
 
     case argv
     when []
       return
+    when ["man"]
+      system "man", man_path
+      exit
+    when ["install-man"]
+      destination = "/usr/local/share/man"
+      print "Destination to install man page to [#{destination}]: "
+      override = $stdin.gets.strip
+      destination = override if override.length > 0
+
+      dest_dir  = File.join(destination, "man1")
+      dest_path = File.join(dest_dir, File.basename(man_path))
+
+      exit(1) unless system "mkdir", "-p", dest_dir
+      exit(1) unless system "cp", man_path, dest_path
+
+      puts "Installed to #{dest_path}"
+
+      exit
     when ["-h"], ["--help"]
       $stderr.puts(banner)
       exit
