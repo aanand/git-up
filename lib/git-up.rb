@@ -2,7 +2,9 @@ require 'colored'
 require 'grit'
 
 class GitUp
-  def run
+  def run(argv)
+    process_args(argv)
+
     command = ['git', 'fetch', '--multiple']
     command << '--prune' if prune?
     command += config("fetch.all") ? ['--all'] : remotes
@@ -24,6 +26,34 @@ class GitUp
   rescue GitError => e
     puts e.message
     exit 1
+  end
+
+  def process_args(argv)
+    banner = <<BANNER
+Fetch and rebase all remotely-tracked branches.
+
+    $ git up
+    master         #{"up to date".green}
+    development    #{"rebasing...".yellow}
+    staging        #{"fast-forwarding...".yellow}
+    production     #{"up to date".green}
+
+There are no command-line options, but there are a few
+`git config` variables you can set, which are documented here:
+#{"https://github.com/aanand/git-up#configuration".cyan}
+
+BANNER
+
+    case argv
+    when []
+      return
+    when ["-h"], ["--help"]
+      $stderr.puts(banner)
+      exit
+    else
+      $stderr.puts(banner)
+      exit 1
+    end
   end
 
   def rebase_all_branches

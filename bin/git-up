@@ -2,5 +2,5 @@
 
 require 'git-up'
 
-GitUp.new.run
+GitUp.new.run(ARGV)
 
