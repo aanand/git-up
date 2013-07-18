@@ -89,7 +89,12 @@ BANNER
     branches.each do |branch|
       remote = remote_map[branch.name]
 
-      print branch.name.ljust(col_width)
+      curbranch = branch.name.ljust(col_width)
+      if branch.name == repo.head.name
+        print curbranch.bold
+      else
+        print curbranch
+      end
 
       if remote.commit.sha == branch.commit.sha
         puts "up to date".green
