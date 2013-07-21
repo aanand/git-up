@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "colored", ">= 1.2"
   s.add_dependency "grit"
 
-  s.files        = Dir.glob("{bin,lib,vendor,man}/**/*") + %w(LICENSE README.md)
+  s.files        = Dir.glob("{bin,lib,man}/**/*") + %w(LICENSE README.md)
   s.require_path = 'lib'
   s.executables  = Dir.glob("bin/*").map(&File.method(:basename))
 end
