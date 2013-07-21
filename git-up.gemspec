@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.email       = ["aanand.prasad@gmail.com", "elliot.cm@gmail.com"]
   s.homepage    = "http://github.com/aanand/git-up"
   s.summary     = "git command to fetch and rebase all branches"
+  s.license     = "MIT"
 
   s.add_development_dependency "thoughtbot-shoulda"
   s.add_dependency "colored", ">= 1.2"
