@@ -40,9 +40,12 @@ Fetch and rebase all remotely-tracked branches.
     staging        #{"fast-forwarding...".yellow}
     production     #{"up to date".green}
 
-There are no command-line options, but there are a few
-`git config` variables you can set. For info on those
-and more, check out the man page:
+    $ git up --version    # print version info
+    $ git up --help       # print this message
+
+There are no interesting command-line options, but
+there are a few `git config` variables you can set.
+For info on those and more, check out the man page:
 
     $ git up man
 
