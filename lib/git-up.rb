@@ -1,6 +1,8 @@
 require 'colored'
 require 'grit'
 
+require 'git-up/version'
+
 class GitUp
   def run(argv)
     process_args(argv)
@@ -56,6 +58,9 @@ BANNER
     case argv
     when []
       return
+    when ["-v"], ["--version"]
+      $stdout.puts "git-up #{GitUp::VERSION}"
+      exit
     when ["man"]
       system "man", man_path
       exit
