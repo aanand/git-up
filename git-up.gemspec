@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.summary     = "git command to fetch and rebase all branches"
   s.license     = "MIT"
 
-  s.add_development_dependency "thoughtbot-shoulda"
   s.add_dependency "colored", ">= 1.2"
   s.add_dependency "grit"
 
