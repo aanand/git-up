@@ -29,3 +29,9 @@ task :man do
     sh "ronn --pipe --roff #{f.path} > man/git-up.1"
   end
 end
+
+task :html do
+  sh "rm -rf html"
+  sh "mkdir html"
+  sh "ronn --pipe --html --style=toc README.md > html/index.html"
+end

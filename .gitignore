@@ -20,3 +20,4 @@ pkg
 Gemfile.lock
 
 ## PROJECT::SPECIFIC
+/html
