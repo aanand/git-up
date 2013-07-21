@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>git-up(1) - fetch and rebase all locally-tracked remote branches</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+  <style type='text/css' media='all'>
+  /* style: toc */
+  .man-navigation {display:block !important;position:fixed;top:0;left:113ex;height:100%;width:100%;padding:48px 0 0 0;border-left:1px solid #dbdbdb;background:#eee}
+  .man-navigation a,.man-navigation a:hover,.man-navigation a:link,.man-navigation a:visited {display:block;margin:0;padding:5px 2px 5px 30px;color:#999;text-decoration:none}
+  .man-navigation a:hover {color:#111;text-decoration:underline}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#INSTALL">INSTALL</a>
+    <a href="#USE">USE</a>
+    <a href="#ALTHOUGH">ALTHOUGH</a>
+    <a href="#DIFFICULTIES">DIFFICULTIES</a>
+    <a href="#CONFIGURATION">CONFIGURATION</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>git-up(1)</li>
+    <li class='tc'></li>
+    <li class='tr'>git-up(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>git-up</code> - <span class="man-whatis">fetch and rebase all locally-tracked remote branches</span>
+</p>
+
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<p><code>git pull</code> has two problems:</p>
+
+<ul>
+<li>It merges upstream changes by default, when it's really more polite to <a href="http://www.gitready.com/advanced/2009/02/11/pull-with-rebase.html">rebase over them</a>, unless your collaborators enjoy a commit graph that looks like bedhead.</li>
+<li>It only updates the branch you're currently on, which means <code>git push</code> will shout at you for being behind on branches you don't particularly care about right now.</li>
+</ul>
+
+
+<p>Solve them once and for all.</p>
+
+<h2 id="INSTALL">INSTALL</h2>
+
+<pre><code>$ gem install git-up
+</code></pre>
+
+<p>Windows support is predictably absent. Try the <a href="https://github.com/msiemens/PyGitUp">Python port</a>, which was started for that reason.</p>
+
+<h2 id="USE">USE</h2>
+
+<p><img src="http://dl.dropbox.com/u/166030/git-up/screenshot.png" alt="$ git up" /></p>
+
+<h2 id="ALTHOUGH">ALTHOUGH</h2>
+
+<p><code>git-up</code> might mess up your branches, or set your chest hair on fire, or be racist to your cat, I don't know. It works for me.</p>
+
+<h2 id="DIFFICULTIES">DIFFICULTIES</h2>
+
+<h3 id="Windows">Windows</h3>
+
+<p>Windows support is an ongoing pain. Have a look at <a href="https://github.com/aanand/git-up/issues/34">this ticket</a> if you really need it, or if you're bored.</p>
+
+<h3 id="spawn-rb-187-in-_pspawn-Invalid-command-name-ArgumentError-">spawn.rb:187:in `_pspawn': Invalid command name (ArgumentError)</h3>
+
+<p>If you're using RVM and you get this error, <a href="https://github.com/aanand/git-up/blob/master/RVM.md">read this</a>.</p>
+
+<h2 id="CONFIGURATION">CONFIGURATION</h2>
+
+<p><code>git-up</code> has a few configuration options, which use git's configuration system. Each can be set either globally or per-project. To set an option globally, append the <code>--global</code> flag to <code>git config</code>, which you can run anywhere:</p>
+
+<pre><code>git config --global git-up.bundler.check true
+</code></pre>
+
+<p>To set it within a project, run the command inside that project's directory and omit the <code>--global</code> flag:</p>
+
+<pre><code>cd myproject
+git config git-up.bundler.check true
+</code></pre>
+
+<h3 id="git-up-bundler-check-true-false-">git-up.bundler.check [true|false]</h3>
+
+<p>Default: <strong>false</strong>. If <strong>true</strong>, git-up will check your app for any new bundled gems and suggest a <code>bundle install</code> if necessary.</p>
+
+<h3 id="git-up-bundler-autoinstall-true-false-">git-up.bundler.autoinstall [true|false]</h3>
+
+<p>Default: <strong>false</strong>. If <strong>true</strong>, and if <code>git-up.bundler.check</code> is also set to <strong>true</strong>, git-up will run <code>bundle install</code> for you if it finds missing gems.</p>
+
+<h3 id="git-up-fetch-prune-true-false-">git-up.fetch.prune [true|false]</h3>
+
+<p>Default: <strong>true</strong>. Append the <code>--prune</code> flag when running <code>git fetch</code>, if your git version supports it (1.6.6 or greater), telling it to <a href="http://linux.die.net/man/1/git-fetch">remove any remote tracking branches which no longer exist on the remote</a>.</p>
+
+<h3 id="git-up-fetch-all-true-false-">git-up.fetch.all [true|false]</h3>
+
+<p>Default: <strong>false</strong>. Normally, git-up will only fetch remotes for which there is at least one local tracking branch. Setting this option to <strong>true</strong> will make git-up always fetch from all remotes, which is useful if e.g. you use a remote to push to your CI system but never check those branches out.</p>
+
+<h3 id="git-up-rebase-arguments-string-">git-up.rebase.arguments [string]</h3>
+
+<p>Default: <strong>unset</strong>. Additional arguments to pass to <code>git rebase</code>. For example, setting this to <code>--preserve-merges</code> will recreate your merge commits in the rebased branch.</p>
+
+<h3 id="git-up-rebase-auto-true-false-">git-up.rebase.auto [true|false]</h3>
+
+<p>Default: <strong>true</strong>. If this option is set to <strong>false</strong>, git-up will not rebase branches for you. Instead, it will print a message saying they are diverged and let you handle rebasing them later. This can be useful if you have a lot of in-progress work that you don't want to deal with at once, but still want to update other branches.</p>
+
+<h3 id="git-up-rebase-log-hook-COMMAND-">git-up.rebase.log-hook "COMMAND"</h3>
+
+<p>Default: <strong>unset</strong>. Runs <strong>COMMAND</strong> every time a branch is rebased or fast-forwarded, with the old head as <strong>$1</strong> and the new head as <strong>$2</strong>. This can be used to view logs or diffs of incoming changes. For example: <code>'echo "changes on $1:"; git log --oneline --decorate $1..$2'</code></p>
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>July 2013</li>
+    <li class='tr'>git-up(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>
