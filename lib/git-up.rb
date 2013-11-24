@@ -112,7 +112,7 @@ BANNER
       base = merge_base(branch.name, remote.name)
 
       if base == remote.commit.sha
-        puts "ahead of upstream".green
+        puts "ahead of upstream".cyan
         next
       end
 
