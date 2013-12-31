@@ -1,6 +1,8 @@
 git-up(1) -- fetch and rebase all locally-tracked remote branches
 =================================================================
 
+[![Code Climate](https://codeclimate.com/github/aanand/git-up.png)](https://codeclimate.com/github/aanand/git-up)
+
 SYNOPSIS
 --------
 
