@@ -1,0 +1,4 @@
+rake:
+  build: .
+  volumes:
+    - .:/code
