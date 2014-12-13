@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
   s.summary     = "git command to fetch and rebase all branches"
   s.license     = "MIT"
 
+  s.required_ruby_version = ">= 1.9.2"
+
   s.add_dependency "colored", ">= 1.2"
   s.add_dependency "grit"
   s.add_development_dependency "ronn"
