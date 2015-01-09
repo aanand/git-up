@@ -95,9 +95,10 @@ BANNER
     col_width = branches.map { |b| b.name.length }.max + 1
 
     branches.each do |branch|
-      remote = remote_map[branch.name]
+      remote      = remote_map[branch.name]
+      curbranch   = branch.name.ljust(col_width)
+      remote_name = repo.config["branch.#{curbranch}.remote"] || "origin"
 
-      curbranch = branch.name.ljust(col_width)
       if branch.name == repo.head.name
         print curbranch.bold
       else
@@ -127,7 +128,7 @@ BANNER
 
       log(branch, remote)
       checkout(branch.name)
-      rebase(remote)
+      rebase(remote, remote_name, curbranch)
     end
   end
 
@@ -218,11 +219,10 @@ BANNER
     end
   end
 
-  def rebase(target_branch)
+  def rebase(target_branch, remote_name, branch_name)
     current_branch = repo.head
-    arguments = config("rebase.arguments")
 
-    output, err = repo.git.sh("#{Grit::Git.git_binary} rebase #{arguments} #{target_branch.name}")
+    output, err = repo.git.sh("#{Grit::Git.git_binary} pull --rebase #{remote_name} #{branch_name}")
 
     unless on_branch?(current_branch.name) and is_fast_forward?(current_branch, target_branch)
       raise GitError.new("Failed to rebase #{current_branch.name} onto #{target_branch.name}", output+err)

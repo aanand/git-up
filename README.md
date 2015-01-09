@@ -16,7 +16,12 @@ Solve them once and for all.
 INSTALL
 -------
 
-    $ gem install git-up
+    $ ~~gem install git-up~~
+
+    $ git clone git@github.com:milosm/git-up.git
+    $ cd git-up && gem build git-up.gemspec
+    $ sudo gem install git-up-0.5.12.1.gem
+    (Version may vary)
 
 Windows support is predictably absent. Try the [Python port](https://github.com/msiemens/PyGitUp), which was started for that reason.
 
@@ -67,10 +72,6 @@ Default: **true**. Append the `--prune` flag when running `git fetch`, if your g
 ### git-up.fetch.all [true|false]
 
 Default: **false**. Normally, git-up will only fetch remotes for which there is at least one local tracking branch. Setting this option to **true** will make git-up always fetch from all remotes, which is useful if e.g. you use a remote to push to your CI system but never check those branches out.
-
-### git-up.rebase.arguments [string]
-
-Default: **unset**. Additional arguments to pass to `git rebase`. For example, setting this to `--preserve-merges` will recreate your merge commits in the rebased branch.
 
 ### git-up.rebase.auto [true|false]
 
