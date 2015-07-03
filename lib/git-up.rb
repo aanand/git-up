@@ -5,15 +5,20 @@ require 'git-up/version'
 
 class GitUp
   def run(argv)
+    @fetch = true
+    
     process_args(argv)
 
-    command = ['git', 'fetch', '--multiple']
-    command << '--prune' if prune?
-    command += config("fetch.all") ? ['--all'] : remotes
+    if @fetch
+      command = ['git', 'fetch', '--multiple']
+      command << '--prune' if prune?
+      command += config("fetch.all") ? ['--all'] : remotes
 
-    # puts command.join(" ") # TODO: implement a 'debug' config option
-    system(*command)
-    raise GitError, "`git fetch` failed" unless $? == 0
+      # puts command.join(" ") # TODO: implement a 'debug' config option
+      system(*command)
+      raise GitError, "`git fetch` failed" unless $? == 0
+    end
+    
     @remote_map = nil # flush cache after fetch
 
     Grit::Git.with_timeout(0) do
@@ -40,6 +45,7 @@ Fetch and rebase all remotely-tracked branches.
     staging        #{"fast-forwarding...".yellow}
     production     #{"up to date".green}
 
+    $ git up --no-fetch   # do not fetch, only rebase
     $ git up --version    # print version info
     $ git up --help       # print this message
 
@@ -85,6 +91,8 @@ BANNER
     when ["-h"], ["--help"]
       $stderr.puts(banner)
       exit
+    when ["-no-f"], ["--no-fetch"]
+      @fetch = false
     else
       $stderr.puts(banner)
       exit 1
