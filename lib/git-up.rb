@@ -1,12 +1,11 @@
 require 'colored'
 require 'grit'
-
 require 'git-up/version'
 
 class GitUp
   def run(argv)
     @fetch = true
-    
+
     process_args(argv)
 
     if @fetch
@@ -18,13 +17,13 @@ class GitUp
       system(*command)
       raise GitError, "`git fetch` failed" unless $? == 0
     end
-    
+
     @remote_map = nil # flush cache after fetch
 
     Grit::Git.with_timeout(0) do
       with_stash do
         returning_to_current_branch do
-          rebase_all_branches
+          rebase_all_branches(argv)
         end
       end
     end
@@ -65,7 +64,7 @@ BANNER
     man_path = File.expand_path('../../man/git-up.1', __FILE__)
 
     case argv
-    when []
+    when [], ["-d"], ["-D"]
       return
     when ["-v"], ["--version"]
       $stdout.puts "git-up #{GitUp::VERSION}"
@@ -99,8 +98,8 @@ BANNER
     end
   end
 
-  def rebase_all_branches
-    col_width = branches.map { |b| b.name.length }.max + 1
+  def rebase_all_branches(argv)
+    col_width = max_width
 
     branches.each do |branch|
       remote = remote_map[branch.name]
@@ -137,6 +136,8 @@ BANNER
       checkout(branch.name)
       rebase(remote)
     end
+
+    delete_branches(argv) if argv.any?
   end
 
   def repo
@@ -350,6 +351,44 @@ EOS
 
   def git_version
     `git --version`[/\d+(\.\d+)+/]
+  end
+
+  def delete_branches(argv)
+    @repo || repo
+    branches = only_in_local_git_branches
+
+    return puts "No branch to remove".on_black if branches.empty?
+
+    branches.each do |branch|
+      command = "git branch #{argv.first} #{branch} --quiet 2> /dev/null"
+      print_deleted(branch) if system(command)
+    end
+  end
+
+  def print_deleted(branch)
+    print "#{branch.ljust(max_width)}"
+    puts "deleted".on_black
+  end
+
+  def remote_branches
+    repo.remotes.map(&:name)
+      .collect {|b| b.sub(/^origin\//, '') }
+      .reject {|b| b =~ /(HEAD|master)/ }
+  end
+
+  def local_branches
+    repo.branches.map(&:name)
+      .reject {|b| b=~ /master/ }
+  end
+
+  def only_in_local_git_branches
+    local_branches - remote_branches
+  end
+
+  def max_width
+    1 + (branches.map { |b| b.name.length } +
+         only_in_local_git_branches.map {|b| b.length }
+        ).max
   end
 end
 
