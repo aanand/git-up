@@ -144,10 +144,16 @@ BANNER
   end
 
   def get_repo
-    repo_dir = `git rev-parse --show-toplevel`.chomp
+    repo_dir = `git rev-parse --git-common-dir`.chomp
 
     if $? == 0
-      Dir.chdir repo_dir
+      if repo_dir == ".git"
+        repo_dir = `git rev-parse --show-toplevel`.chomp
+        Dir.chdir repo_dir
+      else
+        Dir.chdir repo_dir
+        Dir.chdir ".."
+      end
       @repo = Grit::Repo.new(repo_dir)
     else
       raise GitError, "We don't seem to be in a git repository."
@@ -352,4 +358,3 @@ EOS
     `git --version`[/\d+(\.\d+)+/]
   end
 end
-
