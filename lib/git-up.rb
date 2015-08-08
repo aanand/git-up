@@ -147,7 +147,7 @@ BANNER
     repo_dir = `git rev-parse --git-common-dir`.chomp
 
     if $? == 0
-      if repo_dir == ".git"
+      if repo_dir == ".git"  || repo_dir == "--git-common-dir"
         repo_dir = `git rev-parse --show-toplevel`.chomp
         Dir.chdir repo_dir
       else
