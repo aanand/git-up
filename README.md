@@ -16,12 +16,7 @@ Solve them once and for all.
 INSTALL
 -------
 
-    $ ~~gem install git-up~~
-
-    $ git clone git@github.com:milosm/git-up.git
-    $ cd git-up && gem build git-up.gemspec
-    $ sudo gem install git-up-0.5.12.1.gem
-    (Version may vary)
+    $ gem install git-up
 
 Windows support is predictably absent. Try the [Python port](https://github.com/msiemens/PyGitUp), which was started for that reason.
 
