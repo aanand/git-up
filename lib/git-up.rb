@@ -99,12 +99,10 @@ BANNER
   end
 
   def rebase_all_branches(argv)
-    col_width = max_width
-
     branches.each do |branch|
       remote = remote_map[branch.name]
 
-      curbranch = branch.name.ljust(col_width)
+      curbranch = branch.name.ljust(max_width)
       if branch.name == repo.head.name
         print curbranch.bold
       else
@@ -386,9 +384,12 @@ EOS
   end
 
   def max_width
-    1 + (branches.map { |b| b.name.length } +
-         only_in_local_git_branches.map {|b| b.length }
-        ).max
+    @col_width ||= 1 + (branch_mapping).max
+  end
+
+  def branch_mapping
+    branches.map { |b| b.name.length } +
+      only_in_local_git_branches.map {|b| b.length }
   end
 end
 
