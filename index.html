@@ -60,6 +60,7 @@
 
   <div class='man-navigation' style='display:none'>
     <a href="#NAME">NAME</a>
+    <a href="#WARNING">WARNING</a>
     <a href="#SYNOPSIS">SYNOPSIS</a>
     <a href="#INSTALL">INSTALL</a>
     <a href="#USE">USE</a>
@@ -81,12 +82,16 @@
 
 <p><a href="https://codeclimate.com/github/aanand/git-up"><img src="https://codeclimate.com/github/aanand/git-up.png" alt="Code Climate" /></a></p>
 
+<h2 id="WARNING">WARNING</h2>
+
+<p>This project is no longer maintained. I no longer use a workflow that makes it relevant to me, and Git long ago updated its behaviour to remove the main problem it was solving. In general, please don't ever use my software. Thanks!</p>
+
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
 <p><code>git pull</code> has two problems:</p>
 
 <ul>
-<li>It merges upstream changes by default, when it's really more polite to <a href="http://www.gitready.com/advanced/2009/02/11/pull-with-rebase.html">rebase over them</a>, unless your collaborators enjoy a commit graph that looks like bedhead.</li>
+<li>It merges upstream changes by default, when it's really more polite to <a href="http://gitready.com/advanced/2009/02/11/pull-with-rebase.html">rebase over them</a>, unless your collaborators enjoy a commit graph that looks like bedhead.</li>
 <li>It only updates the branch you're currently on, which means <code>git push</code> will shout at you for being behind on branches you don't particularly care about right now.</li>
 </ul>
 
@@ -162,7 +167,7 @@ git config git-up.bundler.check true
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'></li>
-    <li class='tc'>September 2014</li>
+    <li class='tc'>March 2016</li>
     <li class='tr'>git-up(1)</li>
   </ol>
 
