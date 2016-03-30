@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GIT\-UP" "1" "September 2014" "" ""
+.TH "GIT\-UP" "1" "March 2016" "" ""
 .
 .SH "NAME"
 \fBgit\-up\fR \- fetch and rebase all locally\-tracked remote branches
@@ -9,11 +9,14 @@
 .P
  \fIhttps://codeclimate\.com/github/aanand/git\-up\fR
 .
+.SH "WARNING"
+This project is no longer maintained\. I no longer use a workflow that makes it relevant to me, and Git long ago updated its behaviour to remove the main problem it was solving\.
+.
 .SH "SYNOPSIS"
 \fBgit pull\fR has two problems:
 .
 .IP "\(bu" 4
-It merges upstream changes by default, when it\'s really more polite to rebase over them \fIhttp://www\.gitready\.com/advanced/2009/02/11/pull\-with\-rebase\.html\fR, unless your collaborators enjoy a commit graph that looks like bedhead\.
+It merges upstream changes by default, when it\'s really more polite to rebase over them \fIhttp://gitready\.com/advanced/2009/02/11/pull\-with\-rebase\.html\fR, unless your collaborators enjoy a commit graph that looks like bedhead\.
 .
 .IP "\(bu" 4
 It only updates the branch you\'re currently on, which means \fBgit push\fR will shout at you for being behind on branches you don\'t particularly care about right now\.

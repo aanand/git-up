@@ -3,6 +3,11 @@ git-up(1) -- fetch and rebase all locally-tracked remote branches
 
 [![Code Climate](https://codeclimate.com/github/aanand/git-up.png)](https://codeclimate.com/github/aanand/git-up)
 
+WARNING
+-------
+
+This project is no longer maintained. I no longer use a workflow that makes it relevant to me, and Git long ago updated its behaviour to remove the main problem it was solving. In general, please don't ever use my software. Thanks!
+
 SYNOPSIS
 --------
 
