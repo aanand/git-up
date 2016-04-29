@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GIT\-UP" "1" "March 2016" "" ""
+.TH "GIT\-UP" "1" "April 2016" "" ""
 .
 .SH "NAME"
 \fBgit\-up\fR \- fetch and rebase all locally\-tracked remote branches
@@ -10,7 +10,32 @@
  \fIhttps://codeclimate\.com/github/aanand/git\-up\fR
 .
 .SH "WARNING"
-This project is no longer maintained\. I no longer use a workflow that makes it relevant to me, and Git long ago updated its behaviour to remove the main problem it was solving\.
+This project is no longer maintained, for several reasons:
+.
+.IP "\(bu" 4
+I\'ve stopped using the workflow that made it relevant to me\.
+.
+.IP "\(bu" 4
+Git 2\.0 updated the default behaviour to remove the main problem it was solving (by changing the default behaviour of \fBgit push\fR so it acts only on the current branch, instead of all branches)\.
+.
+.IP "\(bu" 4
+Auto\-stashing is now supported natively with \fBgit rebase \-\-autostash\fR\.
+.
+.IP "" 0
+.
+.P
+Accordingly, this line will get you a \fBgit up\fR that works just as well and doesn\'t involve installing any Ruby:
+.
+.IP "" 4
+.
+.nf
+
+git config \-\-global alias\.up \e
+  \'!git fetch && git rebase \-\-autostash FETCH_HEAD\'
+.
+.fi
+.
+.IP "" 0
 .
 .SH "SYNOPSIS"
 \fBgit pull\fR has two problems:

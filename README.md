@@ -6,7 +6,16 @@ git-up(1) -- fetch and rebase all locally-tracked remote branches
 WARNING
 -------
 
-This project is no longer maintained. I've stopped using the workflow that made it relevant to me, and Git long ago updated its default behaviour to remove the main problem it was solving (by changing the default behaviour of `git push` so it acts only on the current branch, instead of all branches). In general, please don't ever use my software. Thanks!
+This project is no longer maintained, for several reasons:
+
+- I've stopped using the workflow that made it relevant to me.
+- Git 2.0 updated the default behaviour to remove the main problem it was solving (by changing the default behaviour of `git push` so it acts only on the current branch, instead of all branches).
+- Auto-stashing is now supported natively with `git rebase --autostash`.
+
+Accordingly, this line will get you a `git up` that works just as well and doesn't involve installing any Ruby:
+
+    git config --global alias.up \
+      '!git fetch && git rebase --autostash FETCH_HEAD'
 
 SYNOPSIS
 --------
