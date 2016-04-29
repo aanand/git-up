@@ -84,7 +84,20 @@
 
 <h2 id="WARNING">WARNING</h2>
 
-<p>This project is no longer maintained. I've stopped using the workflow that made it relevant to me, and Git long ago updated its default behaviour to remove the main problem it was solving (by changing the default behaviour of <code>git push</code> so it acts only on the current branch, instead of all branches). In general, please don't ever use my software. Thanks!</p>
+<p>This project is no longer maintained, for several reasons:</p>
+
+<ul>
+<li>I've stopped using the workflow that made it relevant to me.</li>
+<li>Git 2.0 updated the default behaviour to remove the main problem it was solving (by changing the default behaviour of <code>git push</code> so it acts only on the current branch, instead of all branches).</li>
+<li>Auto-stashing is now supported natively with <code>git rebase --autostash</code>.</li>
+</ul>
+
+
+<p>Accordingly, this line will get you a <code>git up</code> that works just as well and doesn't involve installing any Ruby:</p>
+
+<pre><code>git config --global alias.up \
+  '!git fetch &amp;&amp; git rebase --autostash FETCH_HEAD'
+</code></pre>
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
