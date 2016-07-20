@@ -15,7 +15,7 @@ This project is no longer maintained, for several reasons:
 Accordingly, this line will get you a `git up` that works just as well and doesn't involve installing any Ruby:
 
     git config --global alias.up \
-      '!git fetch && git rebase --autostash FETCH_HEAD'
+      '!git fetch && git rebase --autostash $(git for-each-ref --format "%(upstream:short)" $(git symbolic-ref -q HEAD))'
 
 SYNOPSIS
 --------
