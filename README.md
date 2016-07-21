@@ -10,12 +10,11 @@ This project is no longer maintained, for several reasons:
 
 - I've stopped using the workflow that made it relevant to me.
 - Git 2.0 updated the default behaviour to remove the main problem it was solving (by changing the default behaviour of `git push` so it acts only on the current branch, instead of all branches).
-- Auto-stashing is now supported natively with `git rebase --autostash`.
+- As of Git 2.9, `git pull --rebase --autostash` does basically the same thing.
 
-Accordingly, this line will get you a `git up` that works just as well and doesn't involve installing any Ruby:
+Accordingly, if you update to Git 2.9 or later, you can use this alias instead of installing `git-up`:
 
-    git config --global alias.up \
-      '!git fetch && git rebase --autostash FETCH_HEAD'
+    git config --global alias.up 'pull --rebase --autostash'
 
 SYNOPSIS
 --------
