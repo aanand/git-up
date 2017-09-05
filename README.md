@@ -16,6 +16,11 @@ Accordingly, if you update to Git 2.9 or later, you can use this alias instead o
 
     git config --global alias.up 'pull --rebase --autostash'
 
+If you'd rather this happened on every `git pull`, then you can do this if you're running Git 2.9 or later:
+
+    git config --global pull.rebase true
+    git config --global rebase.autoStash true
+
 SYNOPSIS
 --------
 
