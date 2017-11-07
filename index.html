@@ -98,6 +98,12 @@
 <pre><code>git config --global alias.up 'pull --rebase --autostash'
 </code></pre>
 
+<p>If you'd rather this happened on every <code>git pull</code>, then you can do this:</p>
+
+<pre><code>git config --global pull.rebase true
+git config --global rebase.autoStash true
+</code></pre>
+
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
 
 <p><code>git pull</code> has two problems:</p>
@@ -179,7 +185,7 @@ git config git-up.bundler.check true
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'></li>
-    <li class='tc'>July 2016</li>
+    <li class='tc'>November 2017</li>
     <li class='tr'>git-up(1)</li>
   </ol>
 
