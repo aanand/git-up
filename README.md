@@ -86,10 +86,6 @@ Default: **true**. Append the `--prune` flag when running `git fetch`, if your g
 
 Default: **false**. Normally, git-up will only fetch remotes for which there is at least one local tracking branch. Setting this option to **true** will make git-up always fetch from all remotes, which is useful if e.g. you use a remote to push to your CI system but never check those branches out.
 
-### git-up.rebase.arguments [string]
-
-Default: **unset**. Additional arguments to pass to `git rebase`. For example, setting this to `--preserve-merges` will recreate your merge commits in the rebased branch.
-
 ### git-up.rebase.auto [true|false]
 
 Default: **true**. If this option is set to **false**, git-up will not rebase branches for you. Instead, it will print a message saying they are diverged and let you handle rebasing them later. This can be useful if you have a lot of in-progress work that you don't want to deal with at once, but still want to update other branches.
