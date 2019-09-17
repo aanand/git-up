@@ -26,22 +26,29 @@ workaround
 ----------
 
 To fix this we need to make sure that RVM gets to do it's business
-before `git-up` is ran.
+before `git-up` is run.
 
-RVM provides a handy way of doing this called "wrappers", so let's
-generate a wrapper for git-up like so:
+RVM provides a handy way of doing this called "wrappers". We need to know
+which gemset we're using in rvm. If we're just using a default, just run
+`rvm list gemsets` to check. The default is shown with `=>`.
 
-    rvm wrapper [ruby-version]@[gemset-name] --no-prefix git-up
+Once we know our gemset, we can generate a wrapper for git-up:
 
-Next we need to make sure that git finds our wrapper first, to do this
+    rvm wrapper [ruby-version@gemset-name] --no-prefix git-up
+
+It'll usually respond, telling us the rvm bin folder where the wrapper has been
+saved: something like `$HOME/.rvm/bin` or `/usr/local/rvm/bin`.
+
+Next we need to make sure that git finds _our wrapper first_. To do this
 we can make use of the `/usr/libexec/git-core` directory that git uses
-for some of it's own commands.
+for some of its own commands. Substitute the rvm bin folder from the previous
+command here:
 
-    sudo ln -s $HOME/.rvm/bin/git-up /usr/libexec/git-core/git-up
+    sudo ln -s [rvm-bin-folder]/git-up /usr/libexec/git-core/git-up
 
 Finally we need to modify our wrapper to prevent bundler issues when we
-are working on ruby projects, so open that file in your favourite
-editor, find this line:
+are working on ruby projects. So, in your favourite editor, open the `git-up`
+file from the rvm bin directory. Find this line:
 
     exec git-up "$@"
 
